@@ -19,8 +19,14 @@ require.config({
 });
 
 require(['backbone', 'model.movie.collection'], function(Backbone, movies) {
+  var list = $('<ul>');
 
-  console.log(Backbone);
-  movies.search('pulp');
+  movies.search('pulp', function(movies) {
+    _.each(movies, function(movie) {
+      list.append($('<li>', { html:movie.title }));
+    });
+  });
+    
+  $('body').append(list);
 
 });

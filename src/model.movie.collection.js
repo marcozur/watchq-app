@@ -10,9 +10,9 @@ define(function(require) {
     model: Movie,
     localStorage: new Store("movies"),
 
-    search: function(string){
-      $.get('http://localhost:3000/search/' + string + '.json', function() {
-        console.log(arguments);
+    search: function(string, callback){
+      $.getJSON('http://localhost:3000/search/' + string + '.json', function(movies) {
+        callback(movies);
       });
     }
 
