@@ -11,13 +11,27 @@ define(function(require) {
     localStorage: new Store("movies"),
 
     search: function(string, callback){
+      var regex = new RegExp(string, 'i');
+
       $.getJSON('http://localhost:3000/search/' + string + '.json', function(movies) {
-        callback(movies);
+        _.each(movies, function(movie) {
+          if (!movieCollection.get(movie.id)) {
+            movieCollection.create(movie);
+          }
+        });
+
+        // callback(movies); ???
+      });
+
+      return movieCollection.filter(function(movie) {
+        return regex.test(movie.get('title'));
       });
     }
 
   });
 
-  return new MovieCollection();
+  var movieCollection = new MovieCollection();
+  movieCollection.fetch();
+  return movieCollection;
 
 });
