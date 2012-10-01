@@ -10,22 +10,36 @@ define(function(require) {
     model: Movie,
     localStorage: new Store("movies"),
 
-    search: function(string, callback){
-      var regex = new RegExp(string, 'i');
+    search: function(title){
+      var regex = new RegExp(title, 'i');
 
-      $.getJSON('http://localhost:3000/search/' + string + '.json', function(movies) {
-        _.each(movies, function(movie) {
-          if (!movieCollection.get(movie.id)) {
-            movieCollection.create(movie);
-          }
-        });
-
-        // callback(movies); ???
-      });
+      if (title.length > 1) {
+        this.lookup(title);
+      }
 
       return movieCollection.filter(function(movie) {
         return regex.test(movie.get('title'));
       });
+    },
+
+    lookup: function(title) {
+      var url = 'http://localhost:3000/search/' + title + '.json';
+
+      if (title !== '') {
+        $.getJSON(url, function(movies) {
+          _.each(movies, this.createIfNotExists);
+        }.bind(this));
+      }
+    },
+
+    createIfNotExists: function(movie) {
+      if (!movieCollection.get(movie.id)) {
+        movieCollection.create(movie);
+      }
+    },
+
+    comparator: function(movie) {
+      return movie.get("title");
     }
 
   });
