@@ -1,8 +1,6 @@
 define(function(require) {
 
-  var $ = require('jquery'),
-      Backbone = require('backbone'),
-      Movie = require('model.movie'),
+  var Movie = require('model.movie'),
       Store = require('store');
 
   var MovieCollection = Backbone.Collection.extend({
@@ -11,15 +9,20 @@ define(function(require) {
     localStorage: new Store("movies"),
 
     search: function(title){
-      var regex = new RegExp(title, 'i');
+      var movies = [];
 
-      if (title.length > 1) {
-        this.lookup(title);
+      if (title !== "") {
+        if (title.length > 1) {
+          this.lookup(title);
+        }
+
+        var regex = new RegExp(title, 'i');
+        movies = movieCollection.filter(function(movie) {
+          return regex.test(movie.get('title'));
+        });
       }
 
-      return movieCollection.filter(function(movie) {
-        return regex.test(movie.get('title'));
-      });
+      return movies;
     },
 
     lookup: function(title) {

@@ -3,12 +3,22 @@
   <head>
     <title>watchq</title>
     <script data-main="src/init" src="lib/require-2.0.6.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles/jquery.mobile.custom.css" />
+    <link rel="stylesheet" type="text/css" href="styles/jquery.mobile.custom.structure.css" />
+    <link rel="stylesheet" type="text/css" href="styles/jquery.mobile.custom.theme.css" />
   </head>
 
   <body>
 
-    <input id="txtSearch" type="text" />
-    <ul id="list"></ul>
+    <div id="searchPage" data-role="page">
+      <input id="txtSearch" type="text" />
+      <a href="#movie">test</a>
+      <ul id="list"></ul>
+    </div>
+
+    <div id="movie" data-role="page">
+      <a href="#search">test</a>
+    </div>
 
   </body>
 </html>
