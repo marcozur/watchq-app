@@ -9,6 +9,7 @@ Function.prototype.bind = function(scope) {
 // setup require
 require.config({
   paths: {
+    'text': '../lib/require-text-2.0.3',
     'domReady': '../lib/domready-2.0.1',
     'jquery': '../lib/jquery-1.8.2',
     'jqm': '../lib/jquery.mobile.custom',

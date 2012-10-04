@@ -1,8 +1,12 @@
-define(['router'], function(Router) {
+define(function(require) {
+
+  var Router = require('router'),
+      SearchView = require('view.search');
 
   // defining actions
-  var search = function() {
-    console.log("action: search");
+  var search = function(page) {
+    this.searchView = this.searchView || new SearchView(page);
+    this.searchView.render();
   };
 
   var show = function(movieId) {

@@ -1,4 +1,4 @@
-define(function(Backbone) {
+define(function() {
 
   return Backbone.Model.extend({
 
