@@ -1,11 +1,12 @@
 define(function(require) {
 
-  var template = require('text!../templates/search.html'),
-      movies = require('model.movie.collection');
+  var templateMarkup = require('text!../templates/search.html'),
+      itemTemplateMarkup = require('text!../templates/movie.item.html'),
+      movies = require('model.movie.collection'),
+      template = _.template(templateMarkup),
+      itemTemplate = _.template(itemTemplateMarkup);
 
   return Backbone.View.extend({
-
-    template: _.template(template),
 
     events: {
       "keyup #txtSearch": "search"
@@ -13,31 +14,22 @@ define(function(require) {
 
     initialize: function(el) {
       this.setElement(el);
-    }, 
-
-    render: function() {
-      this.$el.html(this.template());
     },
 
-    currentMovies: [],
+    render: function() {
+      this.$el.html(template());
+    },
+
     search: function(e) {
-      var query = this.$el.find('#txtSearch').val();
+      var query = this.$el.find('#txtSearch').val(),
+          searchResult = movies.search(query),
+          list = this.$el.find("#list"),
+          listMarkup = _.reduce(searchResult, function(res, movie) {
+            return res + itemTemplate({ movie:movie });
+          }, '');
 
-      if (e.keyCode === 8 || query.length === 1) {
-        // the resultset is bigger than what we cached... get new
-        this.currentMovies = movies.search(query);
-      } else {
-        // filter our cache
-        var regex = new RegExp(query, 'i');
-        this.currentMovies = _.filter(this.currentMovies, function(movie) {  
-          return regex.test(movie.get('title'));
-        });
-      }
-
-      var listMarkup = _.reduce(this.currentMovies, function(res, movie) {
-        return res + '<li><a href="#movie?id=' + movie.id + '">' + movie.get('title') + '</a></li>';
-      }, '');
-      this.$el.find("#list").html(listMarkup);
+      list.html(listMarkup);
+      list.listview("refresh");
     }
 
   });

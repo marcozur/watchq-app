@@ -8,18 +8,19 @@ define(function(require) {
     model: Movie,
     localStorage: new Store("movies"),
 
-    search: function(title){
+    search: function(title, maxResults){
       var movies = [];
+      maxResults = maxResults || 20;
 
       if (title !== "") {
-        if (title.length > 0) {
+        if (title.length > 1) {
           this.lookup(title);
         }
 
-        var regex = new RegExp(title, 'i');
+        var regex = new RegExp('(\\A|\\s+)'+title, 'i');
         movies = this.filter(function(movie) {
           return regex.test(movie.get('title'));
-        });
+        }).slice(0, maxResults);
       }
 
       return movies;
@@ -28,7 +29,7 @@ define(function(require) {
     pastLookups: [],
     lookup: function(title) {
       if (title !== '' && _.indexOf(this.pastLookups, title) === -1) {
-        var url = 'http://localhost:3000/search/' + title + '.json';
+        var url = 'http://192.168.0.117:3000/search/' + title + '.json';
 
         $.getJSON(url, function(movies) {
           _.each(movies, this.createIfNotExists);

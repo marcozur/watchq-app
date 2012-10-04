@@ -6,8 +6,10 @@ define(function(require) {
 
   // defining actions
   var search = function(page) {
-    this.searchView = this.searchView || new SearchView(page);
-    this.searchView.render();
+    if (this.searchView === undefined) {
+      this.searchView = new SearchView(page);
+      this.searchView.render();
+    }
   };
 
   var show = function(page, movieId) {
