@@ -1,7 +1,8 @@
 define(function(require) {
 
   var Router = require('router'),
-      SearchView = require('view.search');
+      SearchView = require('view.search'),
+      MovieView = require('view.movie');
 
   // defining actions
   var search = function(page) {
@@ -9,8 +10,9 @@ define(function(require) {
     this.searchView.render();
   };
 
-  var show = function(movieId) {
-    console.log("action: show", movieId);
+  var show = function(page, movieId) {
+    this.movieView = new MovieView(page, movieId);
+    this.movieView.render();
   };
 
   // return instance of router

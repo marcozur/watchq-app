@@ -16,7 +16,7 @@ define(function(require) {
     }, 
 
     render: function() {
-      this.$el.append(template);
+      this.$el.html(this.template());
     },
 
     currentMovies: [],
