@@ -8,7 +8,6 @@ Function.prototype.bind = function(scope) {
 
 // setup require
 require.config({
-  baseUrl: 'src',
   paths: {
     'domReady': '../lib/domready-2.0.1',
     'jquery': '../lib/jquery-1.8.2',
@@ -17,27 +16,29 @@ require.config({
     'underscore': '../lib/underscore-1.4.0',
     'backbone': '../lib/backbone-0.9.2',
     'store': '../lib/backbone-localstorage'
+  },
+  shim: {
+    'backbone': {
+      deps: ['underscore', 'jquery'],
+      exports: 'Backbone'
+    },
+    'store': ['backbone'],
+    'jqm': ['jquery']
   }
 });
 
-// this is our entry point
-require(['jquery', 'jqm', 'underscore', 'backbone'], function(domReady) {
+// make sure our non AMD depedencies are available as global objects
+require(['jquery', 'jqm', 'underscore', 'backbone'], function() {
 
-  domReady(function() {
+  // setup jqm
 
-    // why does this fail?
-    // var router = require('router');
+  // go on kicking off the app
+  require(['domReady', 'app'], function(domReady, App) {
+    domReady(function() {
 
-    // navigate to the given path
-    // routes.navigate(window.document.location.href.split("#")[1]);
+      App.initialize();
 
-    // $("#txtSearch").bind("keyup", function(ev) {
-    //   // only lookup when not backspace
-    //   $("#list").empty();
-    //   _.each(movies.search($(this).val()), function(movie) {
-    //     $("#list").append($('<li>', { html:movie.get('title') }));
-    //   });
-    // });
-
+    });
   });
+
 });
