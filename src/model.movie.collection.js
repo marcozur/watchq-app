@@ -12,12 +12,12 @@ define(function(require) {
       var movies = [];
 
       if (title !== "") {
-        if (title.length > 1) {
+        if (title.length > 0) {
           this.lookup(title);
         }
 
         var regex = new RegExp(title, 'i');
-        movies = movieCollection.filter(function(movie) {
+        movies = this.filter(function(movie) {
           return regex.test(movie.get('title'));
         });
       }
@@ -25,12 +25,14 @@ define(function(require) {
       return movies;
     },
 
+    pastLookups: [],
     lookup: function(title) {
-      var url = 'http://localhost:3000/search/' + title + '.json';
+      if (title !== '' && _.indexOf(this.pastLookups, title) === -1) {
+        var url = 'http://localhost:3000/search/' + title + '.json';
 
-      if (title !== '') {
         $.getJSON(url, function(movies) {
           _.each(movies, this.createIfNotExists);
+          this.pastLookups.push(title);
         }.bind(this));
       }
     },

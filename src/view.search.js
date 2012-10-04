@@ -8,7 +8,7 @@ define(function(require) {
     template: _.template(template),
 
     events: {
-      "keydown #txtSearch": "search"
+      "keyup #txtSearch": "search"
     },
 
     initialize: function(el) {
@@ -19,16 +19,25 @@ define(function(require) {
       this.$el.append(template);
     },
 
+    currentMovies: [],
     search: function(e) {
-      var key = String.fromCharCode(e.keyCode),
-          query = this.$el.find('#txtSearch').val() + key,
-          shadowList = $('<ul>');
+      var query = this.$el.find('#txtSearch').val();
 
-      _.each(movies.search(query), function(movie) {
-        shadowList.append($('<li>', { html:movie.get('title') }));
-      });
+      if (e.keyCode === 8 || query.length === 1) {
+        // the resultset is bigger than what we cached... get new
+        this.currentMovies = movies.search(query);
+      } else {
+        // filter our cache
+        var regex = new RegExp(query, 'i');
+        this.currentMovies = _.filter(this.currentMovies, function(movie) {  
+          return regex.test(movie.get('title'));
+        });
+      }
 
-      this.$el.find("#list").html(shadowList.html());
+      var listMarkup = _.reduce(this.currentMovies, function(res, movie) {
+        return res + '<li><a href="#movie?id=' + movie.id + '">' + movie.get('title') + '</a></li>';
+      }, '');
+      this.$el.find("#list").html(listMarkup);
     }
 
   });
