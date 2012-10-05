@@ -35,7 +35,7 @@ require(['jquery', 'jqm', 'underscore', 'backbone'], function() {
   require(['domReady', 'app'], function(domReady, App) {
     domReady(function() {
 
-      App.initialize();
+        App.initialize();
 
     });
   });
