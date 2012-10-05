@@ -16,6 +16,8 @@ define(function() {
 
         // update model with new infos
         this.set(infos);
+        this.save();
+        
         callback(this);
       }.bind(this));
     }

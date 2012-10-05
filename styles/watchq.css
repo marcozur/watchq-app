@@ -4,3 +4,7 @@
   width:80px;
   height:80px
 }
+
+.q-switch .ui-slider-switch {
+  width: 100%;
+}
