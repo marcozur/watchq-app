@@ -31,8 +31,6 @@ require.config({
 // make sure our non AMD depedencies are available as global objects
 require(['jquery', 'jqm', 'underscore', 'backbone'], function() {
 
-  // setup jqm
-
   // go on kicking off the app
   require(['domReady', 'app'], function(domReady, App) {
     domReady(function() {

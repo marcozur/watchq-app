@@ -1,5 +1,7 @@
 <li>
-  <a href="#movie?id=<%= movie.id %>">
-    <h3><%= movie.get('title') %><h3>
-  </a>
+    <a href="#movie?id=<%= movie.id %>">
+      <img src='images/genericPoster.png' class="ui-li-thumb" />
+      <h3><%= movie.get('title') %></h3>
+      <p><%= movie.get('director') || "No Director" %> (<%= movie.get('year') %>)<p>
+    </a>
 </li>
