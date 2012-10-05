@@ -17,7 +17,7 @@ define(function(require) {
     },
 
     render: function() {
-      var inQ = !this.movie.get('inQ') && 'on' || 'off';
+      var inQ = !this.movie.get('inQ') && 'off' || 'on';
 
       this.$el.html(template({ movie:this.movie }));
 
