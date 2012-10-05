@@ -1,2 +1,17 @@
-movie <%= movie.get('title') %>
-<a href="#search">back</a>
+<div data-role="header" data-position="fixed">
+  <a href="#search">back</a>
+  <h1>watchQ first try</h1>
+</div>
+
+<div data-role="content">
+  <h3><%= movie.get("title") %></h3>
+  <p><%= movie.get("director") || "No Director" %> (<%= movie.get("year") %>)</h3>
+
+  <p><%= movie.get('synopsis') %></p>
+  <p><%= movie.get('critics') %></p>
+  <p><%= movie.get('cast') %></p>
+</div>
+
+<div data-role="footer" data-position="fixed">
+  asf
+</div>

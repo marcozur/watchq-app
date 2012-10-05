@@ -1,11 +1,10 @@
 define(function(require) {
 
-  var template = require('text!../templates/movie.html'),
-      movies = require('model.movie.collection');
+  var templateMarkup = require('text!../templates/movie.html'),
+      movies = require('model.movie.collection'),
+      template = _.template(templateMarkup);
 
   return Backbone.View.extend({
-
-    template: _.template(template),
 
     initialize: function(el, movieId) {
       this.setElement(el);
@@ -13,7 +12,12 @@ define(function(require) {
     },
 
     render: function() {
-      this.$el.html(this.template({ movie:this.movie }));
+      this.$el.html(template({ movie:this.movie }));
+
+      this.movie.lookup(function(movie) {
+        console.log(movie);
+        this.$el.html(template({ movie:movie })).page("destroy").page();
+      }.bind(this));
     }
 
   });

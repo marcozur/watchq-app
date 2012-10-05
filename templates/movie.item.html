@@ -1,6 +1,9 @@
 <li>
     <a href="#movie?id=<%= movie.id %>">
-      <img src='images/genericPoster.png' class="ui-li-thumb" />
+      <img style="display:none;" />
+      <div class="ui-li-thumb thumb-80x" style="background-image:url('http://192.168.252.48:3000<%= movie.get('posterSmall') %>');">
+      </div>
+
       <h3><%= movie.get('title') %></h3>
       <p><%= movie.get('director') || "No Director" %> (<%= movie.get('year') %>)<p>
     </a>
