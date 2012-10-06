@@ -13,12 +13,24 @@ define(function(require) {
     },
 
     render: function() {
-      var listMarkup = _.reduce(movies.models, function(res, movie) {
-            return movie.get('inQ') && res + itemTemplate({ movie:movie }) || res;
-          }, '');
+      var fakeList = $('<ul>'),
+          moviesOnQueue = movies.filter(function(movie) {
+            return movie.get('inQ');
+          });
 
       this.$el.html(template());
-      this.$el.find("#list").html(listMarkup);
+
+      _.each(moviesOnQueue, function(movie) {
+        var li = $('<li>', { html: itemTemplate({ movie:movie }) });
+        fakeList.append(li);
+
+        // defer setting the thumbnail picture till its available
+        movie.getPosterSmallBase64(function(base64) {
+          li.find(".thumb-80x").css({ 'background':'url(data:image/jpeg;base64,'+base64+')' });
+        });
+      });
+
+      this.$el.find("#list").html(fakeList.html());
     }
 
   });

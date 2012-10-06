@@ -24,11 +24,21 @@ define(function(require) {
       var query = this.$el.find('#txtSearch').val(),
           searchResult = movies.search(query),
           list = this.$el.find("#list"),
-          listMarkup = _.reduce(searchResult, function(res, movie) {
-            return res + itemTemplate({ movie:movie });
-          }, '');
+          fakeList = $('<ul>');
 
-      list.html(listMarkup);
+      _.each(searchResult, function(movie) {
+        var li = $('<li>', { html: itemTemplate({ movie:movie }) });
+        fakeList.append(li);
+
+        // defer setting the thumbnail picture till its available
+        movie.getPosterSmallBase64(function(base64) {
+          console.log('paint picture', li);
+          li.find(".thumb-80x").css({ 'background':'url(data:image/jpeg;base64,'+base64+')' });
+        });
+      });
+
+      // refresh list content
+      list.html(fakeList.html());
       list.listview("refresh");
     }
 

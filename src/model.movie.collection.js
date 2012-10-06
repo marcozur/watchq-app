@@ -8,7 +8,7 @@ define(function(require) {
     model: Movie,
     localStorage: new Store("movies"),
 
-    search: function(title, maxResults){
+    search: function(title, maxResults) {
       var movies = [];
       maxResults = maxResults || 20;
 
@@ -29,7 +29,7 @@ define(function(require) {
     pastLookups: [],
     lookup: function(title) {
       if (title !== '' && _.indexOf(this.pastLookups, title) === -1) {
-        var url = 'http://192.168.252.48:3000/search/' + title + '.json';
+        var url = 'http://localhost:3000/search/' + title + '.json';
 
         $.getJSON(url, function(movies) {
           _.each(movies, this.createIfNotExists);
@@ -45,7 +45,7 @@ define(function(require) {
     },
 
     comparator: function(movie) {
-      return movie.get("title");
+      return -movie.get("score");
     }
 
   });
