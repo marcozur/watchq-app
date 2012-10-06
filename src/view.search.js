@@ -28,11 +28,16 @@ define(function(require) {
 
       // search local data
       _.each(searchResult, function(movie) {
-        var li = $('<li>', { html: itemTemplate({ movie:movie }) });
+        var li = $('<li>', { id:'movieItem'+movie.id, html: itemTemplate({ movie:movie }) });
         fakeList.append(li);
         // defer setting the thumbnail picture till its available
         movie.getPosterSmallBase64(function(base64) {
-          li.find(".thumb-80x").css({ 'background':'url(data:image/jpeg;base64,'+base64+')' });
+          setTimeout(function() {
+            $('#movieItem'+movie.id+' .thumb-80x').css({
+              'background': 'url(data:image/jpeg;base64,'+base64+')',
+              'opacity': 1
+            });
+          }, 200);
         });
       });
 
@@ -42,12 +47,12 @@ define(function(require) {
           movies.lookup(query, this.search.bind(this));
         }
 
-        // on 1sec no input, lookup online
+        // on 0.51sec no input, lookup online
         setTimeout(function() {
           if (query === this.$el.find('#txtSearch').val()) {
             movies.lookup(query, this.search.bind(this));
           }
-        }.bind(this), 800);
+        }.bind(this), 300);
       }
 
       // refresh list content

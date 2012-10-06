@@ -1,8 +1,14 @@
 .thumb-80x {
-  background-color:#bada55;
   background-size:80px auto;
   width:80px;
-  height:80px
+  height:80px;
+  background-color:black;
+  opacity:0;
+  transition: opacity .35s ease-in-out;
+  -ms-transition: opacity .35s ease-in-out;
+  -o-transition: opacity .35s ease-in-out;
+  -moz-transition: opacity .35s ease-in-out;
+  -webkit-transition: opacity .35s ease-in-out;
 }
 
 .q-switch .ui-slider-switch {
