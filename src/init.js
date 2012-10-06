@@ -12,7 +12,7 @@ require.config({
     'text': '../lib/require-text-2.0.3',
     'domReady': '../lib/domready-2.0.1',
     'jquery': '../lib/jquery-1.8.2',
-    'jqm': '../lib/jquery.mobile.custom',
+    'jqm': '../lib/jquery.mobile-1.2.0',
     'router': '../lib/router',
     'underscore': '../lib/underscore-1.4.0',
     'backbone': '../lib/backbone-0.9.2',
