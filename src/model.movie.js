@@ -1,4 +1,6 @@
-define(function() {
+define(function(require) {
+
+  var config = require('config');
 
   return Backbone.Model.extend({
 
@@ -10,7 +12,7 @@ define(function() {
         // only lookup if request has not yet been done
         if (_.indexOf(this.posterSmallLookups, this.id) === -1) {
           // data not available, get from server
-          var url = 'http://localhost:3000/poster_base64?size=small&id=' + this.id;
+          var url = config.serviceUrl + '/poster_base64?size=small&id=' + this.id;
           $.getJSON(url, function(data) {
             // save on model, execute callback
             var posterSmall = data.poster.replace(/[\n\r]/g, '');
@@ -24,7 +26,7 @@ define(function() {
     },
 
     lookup: function(callback) {
-      var url = 'http://localhost:3000/movies/' + this.id + '.json';
+      var url = config.serviceUrl + '/movies/' + this.id + '.json';
 
       $.getJSON(url, function(movie) {
         var infos = {

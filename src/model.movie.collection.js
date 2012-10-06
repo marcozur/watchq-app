@@ -1,7 +1,8 @@
 define(function(require) {
 
   var Movie = require('model.movie'),
-      Store = require('store');
+      Store = require('store'),
+      config = require('config');
 
   var MovieCollection = Backbone.Collection.extend({
 
@@ -24,7 +25,7 @@ define(function(require) {
     pastLookups: [],
     lookup: function(title, callback) {
       if (title !== '' && _.indexOf(this.pastLookups, title) === -1) {
-        var url = 'http://localhost:3000/search/' + title + '.json';
+        var url = config.serviceUrl + '/search/' + title + '.json';
         $.getJSON(url, function(movies) {
           movies = movies.slice(0, 50);
           _.each(movies, this.createIfNotExists);
