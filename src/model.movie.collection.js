@@ -28,7 +28,7 @@ define(function(require) {
         $.getJSON(url, function(movies) {
           _.each(movies, this.createIfNotExists);
           this.pastLookups.push(title);
-          callback();
+          callback(movies);
         }.bind(this));
       }
     },

@@ -36,17 +36,19 @@ define(function(require) {
         });
       });
 
-      // on [enter] lookup online
-      if (e && e.keyCode === 13) {
-        movies.lookup(query, this.search);
-      }
-
-      // on 1sec no input, lookup online
-      setTimeout(function() {
-        if (query === this.$el.find('#txtSearch').val()) {
-          movies.lookup(query, this.search);
+      if (e !== undefined) {
+        // on [enter] lookup online
+        if (e.keyCode === 13) {
+          movies.lookup(query, this.search.bind(this));
         }
-      }.bind(this), 800);
+
+        // on 1sec no input, lookup online
+        setTimeout(function() {
+          if (query === this.$el.find('#txtSearch').val()) {
+            movies.lookup(query, this.search.bind(this));
+          }
+        }.bind(this), 800);
+      }
 
       // refresh list content
       list.html(fakeList.html());
