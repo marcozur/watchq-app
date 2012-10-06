@@ -26,10 +26,11 @@ define(function(require) {
       if (title !== '' && _.indexOf(this.pastLookups, title) === -1) {
         var url = 'http://localhost:3000/search/' + title + '.json';
         $.getJSON(url, function(movies) {
+          movies = movies.slice(0, 50);
           _.each(movies, this.createIfNotExists);
-          this.pastLookups.push(title);
           callback(movies);
         }.bind(this));
+        this.pastLookups.push(title);
       }
     },
 
