@@ -26,16 +26,27 @@ define(function(require) {
           list = this.$el.find("#list"),
           fakeList = $('<ul>');
 
+      // search local data
       _.each(searchResult, function(movie) {
         var li = $('<li>', { html: itemTemplate({ movie:movie }) });
         fakeList.append(li);
-
         // defer setting the thumbnail picture till its available
         movie.getPosterSmallBase64(function(base64) {
-          console.log('paint picture', li);
           li.find(".thumb-80x").css({ 'background':'url(data:image/jpeg;base64,'+base64+')' });
         });
       });
+
+      // on [enter] lookup online
+      if (e && e.keyCode === 13) {
+        movies.lookup(query, this.search);
+      }
+
+      // on 1sec no input, lookup online
+      setTimeout(function() {
+        if (query === this.$el.find('#txtSearch').val()) {
+          movies.lookup(query, this.search);
+        }
+      }.bind(this), 800);
 
       // refresh list content
       list.html(fakeList.html());
