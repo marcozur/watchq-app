@@ -2,7 +2,8 @@ define(function(require) {
 
   var templateMarkup = require('text!../templates/movie.html'),
       movies = require('model.movie.collection'),
-      template = _.template(templateMarkup);
+      template = _.template(templateMarkup),
+      config = require('config');
 
   return Backbone.View.extend({
 
@@ -19,15 +20,14 @@ define(function(require) {
     render: function() {
       var inQ = !this.movie.get('inQ') && 'off' || 'on';
 
-      this.$el.html(template({ movie:this.movie }));
+      this.$el.html(template({ config:config, movie:this.movie }));
 
       setTimeout(function() {
         this.$el.find('#switchQ').val(inQ).slider("refresh");
       }.bind(this), 500);
 
       this.movie.lookup(function(movie) {
-        this.$el.html(template({ movie:movie })).page("destroy").page();
-        this.$el.find('#switchQ').val(inQ).slider("refresh");
+        // update all the fields in view
       }.bind(this));
     },
 

@@ -3,6 +3,7 @@ define(function(require) {
   var templateMarkup = require('text!../templates/search.html'),
       itemTemplateMarkup = require('text!../templates/movie.item.html'),
       movies = require('model.movie.collection'),
+      config = require('config'),
       template = _.template(templateMarkup),
       itemTemplate = _.template(itemTemplateMarkup);
 
@@ -38,7 +39,7 @@ define(function(require) {
       // add new items to results
       _.each(searchResult, function(movie) {
         if (this.moviesCache[movie.id] === undefined) {
-          var li = $('<li>', { html:itemTemplate({ movie:movie }) });
+          var li = $('<li>', { html:itemTemplate({ config:config, movie:movie }) });
 
           // add to DOM, cache
           list.append(li);
