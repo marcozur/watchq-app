@@ -12,7 +12,6 @@ define(function(require) {
       this.setElement(el);
     },
 
-    moviesCache: {},
     render: function(e) {
       // remder template
       this.$el.html(template());
@@ -22,38 +21,20 @@ define(function(require) {
           searchResultIds = _.map(searchResult, function(m) { return m.id; }),
           list = this.$el.find("#list");
 
-      // remove items no longer valid from list, cache
-      _.each(_.keys(this.moviesCache), function(key) {
-        if (_.indexOf(searchResultIds, key) === -1) {
-          this.moviesCache[key].remove();
-          delete this.moviesCache[key];
-        }
-      }.bind(this));
-
       // add new items to results
       _.each(searchResult, function(movie) {
-        if (this.moviesCache[movie.id] === undefined) {
-          var li = $('<li>', { html:itemTemplate({ movie:movie }) });
+        var li = $('<li>', { html:itemTemplate({ movie:movie }) });
+        list.append(li);
 
-          // add to DOM, cache
-          list.append(li);
-          this.moviesCache[movie.id] = li;
-
-          // defer setting the thumbnail picture untill it's available
-          movie.getPosterSmallBase64(function(base64) {
-            setTimeout(function() {
-              li.find('.thumb-80x').css({
-                'background': 'url(data:image/jpeg;base64,'+base64+')',
-                'opacity':1
-              });
-            }, 1);
-          });
-        }
-      }.bind(this));
-
-      // reorder listitems to match collections comparator
-      _.each(searchResultIds, function(id) {
-        this.moviesCache[id].detach().insertAfter(list.find('li:last'));
+        // defer setting the thumbnail picture untill it's available
+        movie.getPosterSmallBase64(function(base64) {
+          setTimeout(function() {
+            li.find('.thumb-80x').css({
+              'background': 'url(data:image/jpeg;base64,'+base64+')',
+              'opacity':1
+            });
+          }, 1);
+        });
       }.bind(this));
     }
 
