@@ -35,7 +35,7 @@ define(function(require) {
         }
       }.bind(this));
 
-      // search local data, add items to results
+      // add new items to results
       _.each(searchResult, function(movie) {
         if (this.moviesCache[movie.id] === undefined) {
           var li = $('<li>', { html:itemTemplate({ movie:movie }) });
@@ -44,7 +44,7 @@ define(function(require) {
           list.append(li);
           this.moviesCache[movie.id] = li;
 
-          // defer setting the thumbnail picture untill its available
+          // defer setting the thumbnail picture untill it's available
           movie.getPosterSmallBase64(function(base64) {
             setTimeout(function() {
               li.find('.thumb-80x').css({
@@ -54,6 +54,11 @@ define(function(require) {
             }, 1);
           });
         }
+      }.bind(this));
+
+      // reorder listitems to match collections comparator
+      _.each(searchResultIds, function(id) {
+        this.moviesCache[id].detach().insertAfter(list.find('li:last'));
       }.bind(this));
 
       // re-enhance list
