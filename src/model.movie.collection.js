@@ -13,7 +13,8 @@ define(function(require) {
       var movies = [];
 
       if (title !== "") {
-        var regex = new RegExp('(\\A|\\s+)'+title, 'i');
+        // var regex = new RegExp('(\\A|\\s+)'+title, 'i');
+        var regex = new RegExp(title, 'i');
         movies = this.filter(function(movie) {
           return regex.test(movie.get('title'));
         }).slice(0, maxResults || 15);
