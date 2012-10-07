@@ -32,6 +32,31 @@ define(function(require) {
       }
     },
 
+    toggleQueue: function() {
+      if (this.get("inQ") !== undefined) {
+        this.removeFromQueue();
+      } else {
+        this.addToQueue();
+      }
+    },
+
+    addToQueue: function() {
+      if (!this.get("posterSmallBase64")) {
+        // remember poster
+        this.getPosterSmallBase64(function(poster) {
+          this.set('posterSmallBase64', poster);
+        }.bind(this));
+      }
+
+      this.set({ inQ: new Date() });
+      this.save();
+    },
+
+    removeFromQueue: function() {
+      this.set({ inQ: undefined });
+      this.save();
+    },
+
     lookup: function(callback) {
       var url = config.serviceUrl + '/movies/' + this.id + '.json';
 

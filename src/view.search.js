@@ -17,7 +17,7 @@ define(function(require) {
     },
 
     render: function() {
-      this.$el.html(template());
+      this.$el.html(template({ moviesCount: movies.length }));
     },
 
     moviesCache: {},

@@ -7,11 +7,11 @@ define(function(require) {
   return Backbone.View.extend({
 
     events: {
-      "change #switchQ": "addToQ"
+      "change #switchQ": "toggleQueue"
     },
 
     initialize: function(el, movieId) {
-      _.bindAll(this, 'addToQ');
+      _.bindAll(this, 'toggleQueue');
       this.setElement(el);
       this.movie = movies.get(movieId);
     },
@@ -31,14 +31,11 @@ define(function(require) {
       }.bind(this));
     },
 
-    addToQ: function() {
-      if (!this.movie.get('inQ')) {
-        this.movie.set({ inQ: new Date() });
-      } else {
-        this.movie.set({ inQ: false });
-      }
-      this.movie.save();
+    toggleQueue: function() {
+      this.movie.toggleQueue();
     }
+
+
 
   });
   

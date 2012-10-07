@@ -19,7 +19,11 @@ define(function(require) {
   };
 
   var queue = function(page) {
-    this.queueView = new QueueView(page);
+    if (this.queueView === undefined) {
+      this.queueView = new QueueView(page);
+    }
+    
+    // render each time (we dont listen for changes)
     this.queueView.render();
   };
 

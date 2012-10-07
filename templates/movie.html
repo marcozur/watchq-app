@@ -6,7 +6,7 @@
 <div data-role="content">
   <h3><%= movie.get("title") %></h3>
 
-  <img src="http://192.168.252.48:3000<%= movie.get('posterLarge') %>" />
+  <img src="http://localhost:3000<%= movie.get('posterLarge') %>" />
 
   <p><%= movie.get("director") || "No Director" %> (<%= movie.get("year") %>)</h3>
   <p><%= movie.get('synopsis') %></p>
